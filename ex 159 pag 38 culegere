@@ -1,0 +1,20 @@
+#include <iostream>
+
+using namespace std;
+
+int fact(int x) {
+    if (x==0) return 1;
+    else return x*fact(x-1);
+}
+int comb(int k, int n) {
+    return fact(n)/(fact(k)*fact(n-k));
+}
+int main()
+{
+    int n , mxk=-2e15, mxc=-2e15, aux; cout<<"n="; cin>>n;
+    for (int k=0; k<=n; k++) {
+        aux=comb(k,n);
+        if (aux>mxc) {mxc=aux; mxk=k;}
+    }
+    cout<<"k="<<mxk;
+}
