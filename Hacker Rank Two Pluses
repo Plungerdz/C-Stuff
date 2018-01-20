@@ -1,0 +1,129 @@
+#include <bits/stdc++.h>
+#include <algorithm>
+
+using namespace std;
+
+int convert(int x) {
+    return (x-1)*2+1;
+}
+int area(int x) {
+    return 2*convert(x)-1;
+}
+bool check(int i, int j, int inc, int n, int m) {
+    if (i+inc>n || i-inc<0 || j+inc>m || j-inc<m) {
+        throw 4;
+        return false;
+    }
+    return true;
+}
+int twoPluses(vector<vector<string>> grid) {
+    // Complete this function
+   int n=grid.size();
+   int m=grid[0].size();
+   bool pgrid[n][m];
+   int maxplus[n][m];
+   for (int i = 0; i < n; i++) {
+       for (int j = 0; j < m; j++) {
+           maxplus[i][j]=0;
+           if (grid[i][j]=="G") pgrid[i][j]=true;
+           else pgrid[i][j]=false;
+       }
+   }
+    
+   for (int i = 0; i < n; i++) {
+       for (int j = 0; j < m; j++) {
+           if (pgrid[i][j]) {
+               maxplus[i][j]++;
+               int inc=1;
+               try {
+                  while (true) {
+                    
+                    if (pgrid[i+inc][j] && pgrid[i-inc][j] && pgrid[i][j+inc] && pgrid[i][j-inc]) maxplus[i][j]++;   
+                    else break;
+                  }
+                  
+               } catch (int e) {
+                   continue;
+               }
+           }
+       }
+   }
+   int besti=0, bestj=0, mx=0, sbesti=0, sbestj=0, smx=0;
+   for (int i = 0; i < n; i++) {
+       for (int j = 0; j < m; j++) {
+            if (mx<maxplus[i][j]) {
+                besti=i;
+                bestj=j;
+                mx=maxplus[i][j];
+            }
+       }
+   }
+   
+   bool spread[n][m]; 
+    for (int i = 0; i < n; i++) {
+      for (int j = 0; j < m; j++) {
+         spread[i][j]=false;     
+      }
+    }
+    for (int k=0; k<=mx; k++) {
+         spread[besti+k][bestj]=true;
+         spread[besti-k][bestj]=true;
+         spread[besti][bestj+k]=true;
+         spread[besti][bestj-k]=true;
+                    }
+   for (int i = 0; i < n; i++) {
+       for (int j = 0; j < m; j++) {
+            if (smx<maxplus[i][j]) {
+                int inc=1, acplus=0;
+                bool works=true;
+                try {
+                  
+                    if (i+inc>n || i-inc<0 || j+inc>m || j-inc<m) throw 4;
+                    if (spread[i][j]) {
+                        works=false;
+                        break;
+                    }
+                    while (check(i, j, inc, n, m)) { 
+                        while (spread[i+inc][j] && spread[i-inc][j] && spread[i][j-inc] && spread[i][j+inc]) {
+                           //if (i+inc>n || i-inc<0 || j+inc>m || j-inc<m) throw 4;
+                           acplus++; 
+                           inc++;
+                        }
+                        
+                    }
+                    
+                  
+                  
+               } catch (int e) {
+                   continue;
+               }
+                if (works) {
+                 sbesti=i;
+                 sbestj=j;
+                 smx=max(smx,acplus);   
+                }
+                
+            }
+       }
+   }
+   return area(mx)*area(smx);
+}
+
+int main() {
+    int n;
+    int m;
+    string x;
+    cin >> n >> m;
+    vector<vector<string>> grid;
+    for (int grid_j = 0; grid_j < m; grid_j++) {
+       vector<string> row;
+       for(int grid_i = 0; grid_i < n; grid_i++){
+        cin >> x; row.push_back(x);
+       }  
+       grid.push_back(row);
+    }
+    
+    int result = twoPluses(grid);
+    cout << result << endl;
+    return 0;
+}
