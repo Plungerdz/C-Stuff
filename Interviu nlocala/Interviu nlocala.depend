@@ -1,0 +1,8 @@
+# depslib dependency file v1.0
+1517037271 source:d:\razvan rusan\interviu nlocala\interviu.in.c
+
+1517037693 source:d:\razvan rusan\interviu nlocala\main.cpp
+	<iostream>
+	<algorithm>
+	<fstream>
+
