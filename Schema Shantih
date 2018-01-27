@@ -1,0 +1,30 @@
+#include <iostream>
+#include <fstream>
+#include <algorithm>
+using namespace std;
+//ifstream fin("vintage.in");
+//ofstream fout("vintage.out");
+int n,i,j,nr,k;
+
+struct vintage
+{
+    int c, v;
+} v[1005];
+
+bool comp(vintage x, vintage y)
+{
+    if(x.v==y.v)    return x.c<y.c;
+    return x.v>y.v;
+}
+
+int main()
+{
+    cin>>n>>k;
+    for(i=1;i<=n;i++)
+        cin>>v[i].c>>v[i].v;
+
+    sort(v+1,v+n+1,comp);
+
+    for(i=1;i<=n;i++)
+        cout<<v[i].c<<" "<<v[i].v<<"\n";
+}
