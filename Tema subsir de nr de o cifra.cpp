@@ -35,7 +35,6 @@ int main()
         mx=max(mx,j);
         f[i]=j;
     }
-    cout<<prop(v[v.size()-1])<<endl;
     for (int i=0; i<v.size(); i++)
     {
         cout<<f[i]<<" ";
